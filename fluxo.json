@@ -1,0 +1,231 @@
+[
+    {
+        "id": "b2bc15af7dca107d",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "mqtt-in",
+        "type": "mqtt in",
+        "z": "b2bc15af7dca107d",
+        "name": "Receber dados do ESP32",
+        "topic": "esp32/monitoramento/ambiente",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqtt-broker",
+        "nl": false,
+        "rap": false,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "json-node"
+            ]
+        ]
+    },
+    {
+        "id": "json-node",
+        "type": "json",
+        "z": "b2bc15af7dca107d",
+        "name": "Converter JSON",
+        "x": 450,
+        "y": 120,
+        "wires": [
+            [
+                "split-node"
+            ]
+        ]
+    },
+    {
+        "id": "split-node",
+        "type": "change",
+        "z": "b2bc15af7dca107d",
+        "name": "Separar temp e umidade",
+        "rules": [
+            {
+                "t": "set",
+                "p": "temperatura",
+                "pt": "msg",
+                "to": "payload.temperatura",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "umidade",
+                "pt": "msg",
+                "to": "payload.umidade",
+                "tot": "msg"
+            }
+        ],
+        "x": 700,
+        "y": 120,
+        "wires": [
+            [
+                "temp-gauge",
+                "umid-gauge",
+                "temp-chart",
+                "umid-chart"
+            ]
+        ]
+    },
+    {
+        "id": "temp-gauge",
+        "type": "ui_gauge",
+        "z": "b2bc15af7dca107d",
+        "name": "Temperatura",
+        "group": "dashboard-grupo",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "min": 0,
+        "max": 60,
+        "colors": [
+            "#00bfff",
+            "#f7e600",
+            "#ff0000"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 970,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "umid-gauge",
+        "type": "ui_gauge",
+        "z": "b2bc15af7dca107d",
+        "name": "Umidade",
+        "group": "dashboard-grupo",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "min": 0,
+        "max": 100,
+        "colors": [
+            "#f7e600",
+            "#00bfff",
+            "#0044ff"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 970,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "temp-chart",
+        "type": "ui_chart",
+        "z": "b2bc15af7dca107d",
+        "name": "Histórico Temperatura",
+        "group": "dashboard-grupo",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Temperatura (°C)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "60",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "hour",
+        "cutout": 0,
+        "outputs": 1,
+        "x": 990,
+        "y": 230,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "umid-chart",
+        "type": "ui_chart",
+        "z": "b2bc15af7dca107d",
+        "name": "Histórico Umidade",
+        "group": "dashboard-grupo",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Umidade (%)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "hour",
+        "cutout": 0,
+        "outputs": 1,
+        "x": 990,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "mqtt-broker",
+        "type": "mqtt-broker",
+        "name": "HiveMQ Broker",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "NodeRED-Monitor",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 15,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "dashboard-grupo",
+        "type": "ui_group",
+        "name": "Monitoramento Ambiente",
+        "tab": "dashboard-tab",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "dashboard-tab",
+        "type": "ui_tab",
+        "name": "Dashboard ESP32",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "7b931abd79f25ef1",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
