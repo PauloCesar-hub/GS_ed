@@ -214,8 +214,8 @@ node-red
 Acessar:
 
 http://localhost:1880/ui
-
-📽️ Vídeo Demonstrativo (Entrega)
+link do projeto https://wokwi.com/projects/447354816042772481
+📽️ Vídeo Demonstrativo (https://youtube.com/shorts/DmSgEp4C5Vo)
 
 O vídeo apresenta:
 
@@ -225,7 +225,6 @@ A solução IoT criada
 
 Funcionamento ESP32 + Node-RED
 
-Dashboard recebendo os dados ao vivo
 
 📍 Resultados
 
